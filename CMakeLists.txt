@@ -5,6 +5,16 @@ project(EasyWindow
     VERSION 1.2.2
 )
 
+find_package(Python3 COMPONENTS Interpreter REQUIRED)
+
+add_custom_target(
+    build-dependencies ALL
+    COMMAND "${Python3_EXECUTABLE}" dependencies.py
+    WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/scripts"
+    COMMENT "Build all dependencies"
+    VERBATIM
+)
+
 # ####################################################################################### #
 # Library params
 # ####################################################################################### #
@@ -35,6 +45,8 @@ file(GLOB_RECURSE SOURCES_FILES ${CMAKE_CURRENT_LIST_DIR}/sources/*.cpp)
 # ####################################################################################### #
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES_FILES} ${HEADERS_FILES})
+
+add_dependencies(${PROJECT_NAME} build-dependencies)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     CXX_STANDARD                17
@@ -76,8 +88,7 @@ else()
     message(FATAL_ERROR "[${PROJECT_NAME}]: invalid value of <EZWINDOW_RENDER_BACKEND> configuration property. It must be <Vulkan/Metal/OpenGL>.")
 endif()
 
-include(CMakeFindDependencyMacro)
-
+list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_LIST_DIR}/deps")
 find_package(glfw3 CONFIG REQUIRED)
 
 target_link_libraries(${PROJECT_NAME}
