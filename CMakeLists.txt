@@ -44,7 +44,7 @@ file(GLOB_RECURSE SOURCES_FILES ${CMAKE_CURRENT_LIST_DIR}/sources/*.cpp)
 # Target configuration
 # ####################################################################################### #
 
-add_library(${PROJECT_NAME} STATIC ${SOURCES_FILES} ${HEADERS_FILES})
+add_library(${PROJECT_NAME} ${SOURCES_FILES} ${HEADERS_FILES})
 
 add_dependencies(${PROJECT_NAME} build-dependencies)
 
