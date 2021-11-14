@@ -92,7 +92,7 @@ list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_LIST_DIR}/deps")
 find_package(glfw3 CONFIG REQUIRED)
 
 target_link_libraries(${PROJECT_NAME}
-    PUBLIC
+    PRIVATE
         ${${PROJECT_NAME}_dependencies}
 )
 
